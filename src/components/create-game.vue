@@ -13,7 +13,7 @@
       </option>
     </select>
     <button>Create game</button>
-    <span v-if="loading">Processing...</span>
+    <div v-if="loading">Processing, Waiting for contract address...</div>
   </form>
 </template>
 

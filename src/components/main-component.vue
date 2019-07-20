@@ -118,25 +118,32 @@ export default {
         const contract = await this.createGame({ amount, address, move, salt }, this.globals.account);
 
         let timer = setInterval(() => {
-          if (!contract.address) {
-            return;
-          }
+          web3.eth.getTransactionReceipt(contract.transactionHash, (error, receipt) => {
+            if (contract.address) {
+              return;
+            }
 
-          if (timer) {
-            clearInterval(timer);
-            timer = null;
-          }
+            if (contract.address || (receipt && receipt.contractAddress)) {
+              if (timer) {
+                clearInterval(timer);
+                timer = null;
+              }
 
-          this.globals.state.class = 'success';
-          this.globals.state.message = 'Contract deployed';
-          this.globals.state.address = contract.address;
-          this.globals.state.hash = contract.transactionHash;
-          this.contractCreated = true;
-          this.$refs.gameForm.loading = false;
+              contract.address = receipt.contractAddress;
 
-          this.globals.games[contract.address] = { move, salt };
-          localStorage.setItem('solutions', JSON.stringify(this.globals.games));
-          this.$refs.gameForm.reset();
+              this.globals.state.class = 'success';
+              this.globals.state.message = 'Contract deployed';
+              this.globals.state.address = contract.address;
+              this.globals.state.hash = contract.transactionHash;
+              this.contractCreated = true;
+              this.$refs.gameForm.loading = false;
+
+              this.globals.games[contract.address] = { move, salt };
+              localStorage.setItem('solutions', JSON.stringify(this.globals.games));
+              this.$refs.gameForm.reset();
+            }
+          });
+
         }, 1000);
       } catch(e) {
           this.globals.state.message = 'Unable to deploy contract ' + e.message;

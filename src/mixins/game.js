@@ -67,7 +67,7 @@ export default {
       const rpsContract = web3.eth.contract(contractInfo.abi).at(address);
 
       return new Promise((resolve, reject) => {
-        const config = { from, gas: '30000' };
+        const config = { from, gas: '60000' };
         const formattedMove = '0x' + new Number(move).toString(16).padStart(2, '0');
         rpsContract.solve(formattedMove, salt,
           config,

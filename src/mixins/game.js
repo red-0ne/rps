@@ -26,6 +26,8 @@ export default {
       this.currentContract = contractProps;
     },
     createGame({ amount, address, move, salt }, from) {
+        // eslint-disable-next-line no-console
+        console.log('Salt used', salt);
         // eslint-disable-next-line no-undef
         const rpsContract = web3.eth.contract(contractInfo.abi);
 

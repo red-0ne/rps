@@ -155,7 +155,7 @@ export default {
                 }
 
                 if (receipt.status === "0x1") {
-                  this.game.state = '0';
+                  this.game.stake = '0';
                   this.failed = false;
                 } else {
                   this.failed = true;

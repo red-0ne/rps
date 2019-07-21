@@ -70,7 +70,7 @@ export default {
       this.globals.state.class = 'warning';
     }
 
-    this.globals.games = JSON.parse(localStorage.getItem('solutions'));
+    this.globals.games = JSON.parse(localStorage.getItem('solutions')) || {};
     await this.enableMetamask();
   },
   watch: {
